@@ -87,7 +87,7 @@ class Controller(nn.Module):
         return log_probs[idx], new_state, terminate
 
 
-    def generate_rollout(self, iter_train, iter_dev, verbose=False):
+    def generate_rollout(self, itration_number, iter_train, iter_dev, verbose=False):
         self.log_probs = []
         self.actions = []
         self.entropies = []
@@ -108,7 +108,8 @@ class Controller(nn.Module):
         net = Net(self.actions)
         accuracy = net.fit(iter_train, iter_dev)
         self.reward += accuracy
-
+        if itration_number%100 == 0:
+            print(net)
         return self.reward
 
     
