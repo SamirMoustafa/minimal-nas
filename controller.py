@@ -108,9 +108,7 @@ class Controller(nn.Module):
         net = Net(self.actions)
         accuracy = net.fit(iter_train, iter_dev)
         self.reward += accuracy
-        if itration_number%100 == 0:
-            print(net)
-        return self.reward
+        return self.reward, net
 
     
     def optimize(self):
