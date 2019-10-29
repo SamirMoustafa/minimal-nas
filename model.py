@@ -17,8 +17,7 @@ class Net(nn.Module):
         activation_functions = {
             'Sigmoid': nn.Sigmoid(),
             'Tanh': nn.Tanh(),
-            'ReLU': nn.ReLU(),
-            'LeakyReLU': nn.LeakyReLU()
+            'ELU': nn.ELU(),
         }
 
         for action in actions:

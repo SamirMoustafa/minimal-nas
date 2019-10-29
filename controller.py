@@ -8,8 +8,22 @@ from model import Net
 
 class Controller(nn.Module):
 
-    def __init__(self, num_actions=10, hidden_size=64):
+    def __init__(self, hidden_size=64):
         super(Controller, self).__init__()
+
+        self.index_to_action = {
+            0: 1,
+            1: 2,
+            2: 4,
+            3: 8,
+            4: 16,
+            5: 'Sigmoid',
+            6: 'ELU',
+            7: 'Tanh',
+            8: 'EOS'
+        }
+
+        num_actions = len(self.index_to_action)
 
         self.cell = nn.GRUCell(
             input_size=num_actions,
@@ -32,19 +46,6 @@ class Controller(nn.Module):
         self.actions = []
         self.entropies = []
         self.reward = None
-
-        self.index_to_action = {
-            0: 1,
-            1: 2,
-            2: 4,
-            3: 8,
-            4: 16,
-            5: 'Sigmoid',
-            6: 'Tanh',
-            7: 'ReLU',
-            8: 'LeakyReLU',
-            9: 'EOS'
-        }
 
         self.optimizer = optim.Adam(self.parameters(), lr=1e-2)
 
@@ -107,7 +108,9 @@ class Controller(nn.Module):
 
         net = Net(self.actions)
         accuracy = net.fit(iter_train, iter_dev)
+
         self.reward += accuracy
+
         return self.reward, net
 
     
