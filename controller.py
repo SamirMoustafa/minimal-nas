@@ -30,6 +30,7 @@ class Controller(nn.Module):
             hidden_size=hidden_size
         )
 
+
         self.fc = nn.Linear(
             in_features=hidden_size,
             out_features=num_actions
