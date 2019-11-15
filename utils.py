@@ -109,7 +109,7 @@ def load_controller(controller, path='controller.pt'):
         print(e)
         return False
 
-def train(controller, num_rollouts, dl_train, dl_dev, save=True):
+def train(controller, num_rollouts, dl_train, dl_dev, save=False):
     """
     Train a controller with number of rollouts on train and devoplment dataset
     :param: controller: Controller objecte to train on it.
@@ -121,7 +121,6 @@ def train(controller, num_rollouts, dl_train, dl_dev, save=True):
             losses: loss for each epoch for the controller (Child accuracy)
             best_losses: Store the best loss after some epochs
     """
-    print('Training controller...')
     
     best_child = None
     best_losses = [math.inf]
@@ -139,7 +138,7 @@ def train(controller, num_rollouts, dl_train, dl_dev, save=True):
         rewards.append(reward)
         losses.append(loss)
         
-        if best_reward < reward:
+        if best_reward <= reward:
             best_reward = reward
             best_losses.append(abs(loss))
             best_child = child
@@ -151,8 +150,6 @@ def train(controller, num_rollouts, dl_train, dl_dev, save=True):
                 
         pbar.set_description(child_str)    
 
-                
-    print('Done.')
     return rewards, losses, best_losses, best_child
 
 
